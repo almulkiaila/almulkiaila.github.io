@@ -24,12 +24,25 @@
     return "en";
   }
 
+  function readingTime(lang, n) {
+    if (lang === "es") return n + " min de lectura";
+    if (lang === "ar") {
+      var d = n.toLocaleString("ar-SY");
+      if (n === 1) return "دقيقة قراءة";
+      if (n === 2) return "دقيقتين قراءة";
+      if (n <= 10) return d + " دقايق قراءة";
+      return d + " دقيقة قراءة";
+    }
+    return n + " min read";
+  }
+
   function render(lang) {
     var t = Object.assign({}, window.I18N[lang], PAGE[lang]);
     var current = POSTS.filter(function (p) { return p.slug === body.dataset.post; })[0];
     if (current) {
       t.postDate = current[lang].date;
       t.postTitle = current[lang].title;
+      t.postReading = readingTime(lang, current.minutes);
     }
     root.lang = lang;
     root.dir = t.dir;
@@ -42,7 +55,8 @@
       list.innerHTML = posts.slice(0, limit).map(function (p) {
         var x = p[lang];
         return '<li><a href="posts/' + p.slug + '.html">' +
-          '<time datetime="' + p.date + '">' + x.date + '</time>' +
+          '<span class="post-meta"><time datetime="' + p.date + '">' + x.date + '</time>' +
+          '<span aria-hidden="true"> · </span>' + readingTime(lang, p.minutes) + '</span>' +
           '<span class="post-title">' + x.title + '</span>' +
           '<span class="post-excerpt">' + x.excerpt + '</span>' +
           '<span class="read-more">' + t.readMore + '</span>' +

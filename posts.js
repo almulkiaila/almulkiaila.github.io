@@ -1,11 +1,13 @@
 // All posts, newest first. "section" is "writing" or "languages".
 // The homepage shows the latest two writings; writing.html and languages.html list their section.
 // To add a post: create posts/<slug>.html + posts/<slug>.js, then add an entry at the top here.
+// "minutes" is the reading time: English word count / 200, rounded up.
 window.POSTS = [
   {
     slug: "how-i-learned-languages-on-my-own",
     section: "languages",
     date: "2026-10-24",
+    minutes: 2,
     en: {
       date: "October 24, 2026",
       title: "How I Learned Languages on My Own",
@@ -26,6 +28,7 @@ window.POSTS = [
     slug: "the-same-sound",
     section: "writing",
     date: "2022-11-09",
+    minutes: 2,
     en: {
       date: "November 9, 2022",
       title: "The Same Sound",

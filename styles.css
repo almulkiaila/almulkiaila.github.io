@@ -185,8 +185,7 @@ h2 .rule {
   padding: 1.25rem 0;
   text-decoration: none;
 }
-.post-list time,
-.post-header time {
+.post-meta {
   display: block;
   font-family: var(--sans);
   font-size: 0.68rem;
@@ -323,8 +322,7 @@ html[lang="ar"] .prose p:first-child::first-letter {
 html[lang="ar"] .site-nav a,
 html[lang="ar"] .read-more,
 html[lang="ar"] .more-link,
-html[lang="ar"] .post-list time,
-html[lang="ar"] .post-header time,
+html[lang="ar"] .post-meta,
 html[lang="ar"] .back {
   font-family: var(--arabic);
   letter-spacing: 0;
