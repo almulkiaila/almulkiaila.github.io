@@ -4,6 +4,27 @@
 // "minutes" is the reading time: English word count / 200, rounded up.
 window.POSTS = [
   {
+    slug: "is-it-fomo",
+    section: "writing",
+    date: "2026-10-28",
+    minutes: 2,
+    en: {
+      date: "October 28, 2026",
+      title: "Is It FOMO, or Do We Just Want to Be Seen?",
+      excerpt: "What the fear of missing out really is, and whether what we fear is not being seen."
+    },
+    es: {
+      date: "28 de octubre de 2026",
+      title: "¿Es FOMO, o solo queremos que nos vean?",
+      excerpt: "Qué es de verdad el miedo a perderse algo, y si lo que tememos es que no nos vean."
+    },
+    ar: {
+      date: "٢٨ تشرين الأول ٢٠٢٦",
+      title: "هل هو FOMO، ولا بس بدنا الناس تشوفنا؟",
+      excerpt: "شو يعني الخوف من إنو يفوتنا شي، وهل يلي منخاف منو فعلاً إنو ما حدا يشوفنا؟"
+    }
+  },
+  {
     slug: "how-i-learned-languages-on-my-own",
     section: "languages",
     date: "2026-10-24",

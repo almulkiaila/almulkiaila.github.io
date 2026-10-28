@@ -287,6 +287,8 @@ html[dir="rtl"] .post-cards a::before { background-position: right center; }
   stroke-linejoin: round;
 }
 
+.post-icon .pupil { fill: var(--pink); stroke: none; }
+
 .prose em { color: var(--pink-deep); }
 
 /* ---------- Footer ---------- */
