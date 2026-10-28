@@ -7,6 +7,8 @@
   var root = document.documentElement;
   var main = document.querySelector("main");
   var buttons = document.querySelectorAll(".lang-switch button");
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var dict = {};
 
   function savedLang() {
     try { return localStorage.getItem(STORAGE_KEY); } catch (e) { return null; }
@@ -36,8 +38,111 @@
     return n + " min read";
   }
 
+  /* ---------- Soft fade-in on scroll ---------- */
+
+  var FADE_SELECTOR = ".hero, .page-title, main section > h2, .post-header, .prose > p, .post-list li, .more-link";
+  var fadeObserver = null;
+
+  if (!reduceMotion && "IntersectionObserver" in window) {
+    root.classList.add("fade-ready");
+    fadeObserver = new IntersectionObserver(function (entries) {
+      entries.filter(function (e) { return e.isIntersecting; }).forEach(function (e, i) {
+        e.target.style.transitionDelay = (i * 90) + "ms";
+        e.target.classList.add("is-visible");
+        fadeObserver.unobserve(e.target);
+        // Clear the stagger so later transitions (like the reading highlight) aren't delayed.
+        setTimeout(function () { e.target.style.transitionDelay = ""; }, 1200);
+      });
+    }, { rootMargin: "0px 0px -6% 0px", threshold: 0.05 });
+  }
+
+  function observeFades() {
+    if (!fadeObserver) return;
+    document.querySelectorAll(FADE_SELECTOR).forEach(function (el) {
+      if (el.classList.contains("fade")) return;
+      el.classList.add("fade");
+      fadeObserver.observe(el);
+    });
+  }
+
+  /* ---------- Listen to this post (browser text-to-speech) ---------- */
+
+  var speech = window.speechSynthesis;
+  var listenBtn = document.querySelector(".listen");
+  var listenLabel = listenBtn && listenBtn.querySelector("[data-listen-label]");
+  var VOICE_LANG = { en: "en-US", es: "es-ES", ar: "ar-SA" };
+  var listenState = "idle";   // idle | playing | paused
+  var listenRun = 0;          // bumps on every stop/pause so stale callbacks are ignored
+  var listenIndex = 0;
+  var listenParts = [];
+
+  function voicesFor(lang) {
+    return speech.getVoices().filter(function (v) { return v.lang.toLowerCase().indexOf(lang) === 0; });
+  }
+
+  function updateListen() {
+    if (!listenBtn) return;
+    if (!speech) { listenBtn.hidden = true; return; }
+    // Voices load asynchronously; until they do, assume the language is available.
+    listenBtn.hidden = speech.getVoices().length > 0 && voicesFor(root.lang).length === 0;
+    listenLabel.textContent = listenState === "playing" ? dict.listenPause
+      : listenState === "paused" ? dict.listenResume : dict.listen;
+    listenBtn.classList.toggle("is-playing", listenState === "playing");
+  }
+
+  function markReading(el) {
+    document.querySelectorAll(".is-reading").forEach(function (p) { p.classList.remove("is-reading"); });
+    if (el && el.tagName === "P") el.classList.add("is-reading");
+  }
+
+  function speakFrom(i) {
+    if (i >= listenParts.length) { stopListening(); return; }
+    listenIndex = i;
+    markReading(listenParts[i]);
+    var run = listenRun;
+    var u = new SpeechSynthesisUtterance(listenParts[i].textContent);
+    u.lang = VOICE_LANG[root.lang];
+    var voices = voicesFor(root.lang);
+    var exact = voices.filter(function (v) { return v.lang === VOICE_LANG[root.lang]; })[0];
+    if (exact || voices[0]) u.voice = exact || voices[0];
+    u.rate = 0.95;
+    u.onend = function () { if (run === listenRun && listenState === "playing") speakFrom(i + 1); };
+    speech.speak(u);
+  }
+
+  function stopListening() {
+    if (!speech || !listenBtn) return;
+    listenRun++;
+    listenState = "idle";
+    speech.cancel();
+    markReading(null);
+    updateListen();
+  }
+
+  if (listenBtn && speech) {
+    listenBtn.addEventListener("click", function () {
+      listenRun++;
+      speech.cancel();
+      if (listenState === "playing") {
+        listenState = "paused";
+      } else {
+        if (listenState === "idle") {
+          listenParts = [document.querySelector(".post-header h1")]
+            .concat([].slice.call(document.querySelectorAll(".post .prose p")));
+          listenIndex = 0;
+        }
+        listenState = "playing";
+        speakFrom(listenIndex);
+      }
+      updateListen();
+    });
+    speech.addEventListener && speech.addEventListener("voiceschanged", updateListen);
+    window.addEventListener("pagehide", function () { speech.cancel(); });
+  }
+
   function render(lang) {
     var t = Object.assign({}, window.I18N[lang], PAGE[lang]);
+    dict = t;
     var current = POSTS.filter(function (p) { return p.slug === body.dataset.post; })[0];
     if (current) {
       t.postDate = current[lang].date;
@@ -72,13 +177,16 @@
     buttons.forEach(function (b) {
       b.setAttribute("aria-pressed", String(b.dataset.lang === lang));
     });
+
+    updateListen();
+    observeFades();
   }
 
   function switchTo(lang) {
     if (lang === root.lang) return;
     saveLang(lang);
-    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) { render(lang); return; }
+    stopListening();
+    if (reduceMotion) { render(lang); return; }
     main.classList.add("is-switching");
     setTimeout(function () {
       render(lang);

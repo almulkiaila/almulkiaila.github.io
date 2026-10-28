@@ -289,6 +289,41 @@ html[dir="rtl"] .post-cards a::before { background-position: right center; }
 
 .prose em { color: var(--pink-deep); }
 
+/* ---------- Listen to this post ---------- */
+
+.listen {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 1.4rem;
+  padding: 0.5rem 1rem 0.5rem 0.8rem;
+  border: 1px solid var(--pink);
+  border-radius: 999px;
+  background: none;
+  color: var(--pink-deep);
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.listen[hidden] { display: none; }
+.listen:hover { background: rgba(212, 154, 163, 0.1); }
+.listen.is-playing { background: rgba(212, 154, 163, 0.16); }
+.listen:focus-visible { outline: 1px solid var(--pink-deep); outline-offset: 3px; }
+.listen-icon { width: 0.8rem; height: 0.8rem; fill: currentColor; }
+.listen .i-pause,
+.listen.is-playing .i-play { display: none; }
+.listen.is-playing .i-pause { display: inline; }
+
+.prose p { transition: background-color 0.4s, box-shadow 0.4s; }
+.prose p.is-reading {
+  background-color: rgba(212, 154, 163, 0.12);
+  box-shadow: 0 0 0 0.6rem rgba(212, 154, 163, 0.12);
+  border-radius: 2px;
+}
+
 /* ---------- Footer ---------- */
 
 .site-footer {
@@ -332,6 +367,24 @@ html[lang="ar"] .back {
 html[lang="ar"] .post-title { font-family: var(--arabic); font-size: 1.45rem; line-height: 1.6; }
 
 html[lang="ar"] .prose em { font-style: normal; }
+
+html[lang="ar"] .listen {
+  font-family: var(--arabic);
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 0.95rem;
+  padding-block: 0.3rem;
+}
+
+/* ---------- Soft fade-in on scroll (only when JS adds .fade-ready) ---------- */
+
+.fade-ready .fade {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+.fade-ready .fade.is-visible { opacity: 1; transform: none; }
+.fade-ready .prose p.fade { transition: opacity 0.9s ease, transform 0.9s ease, background-color 0.4s, box-shadow 0.4s; }
 
 /* ---------- Gentle fade when switching language ---------- */
 
