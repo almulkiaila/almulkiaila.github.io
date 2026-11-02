@@ -1,6 +1,5 @@
 // All posts, newest first. "section" is "writing" or "languages".
-// The homepage shows the latest two writings and a banner with the newest language tip;
-// writing.html and languages.html list their section.
+// The homepage shows the latest two writings; writing.html and languages.html list their section.
 // To add a post: create posts/<slug>.html + posts/<slug>.js, then add an entry at the top here.
 // "minutes" is the reading time: English word count / 200, rounded up.
 window.POSTS = [

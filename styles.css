@@ -223,51 +223,37 @@ h2 .rule {
 .page-top { padding-top: clamp(3.5rem, 12vh, 7rem); }
 .page-title { margin-bottom: 2.5rem; }
 
-/* ---------- Banner on the homepage (newest language tip) ---------- */
+/* ---------- Languages card on the homepage ---------- */
 
-.banner {
-  display: flex;
+.languages-feature { margin-top: 1rem; }
+.languages-feature + .writing { margin-top: 3rem; }
+
+.post-cards li + li { border-top: none; margin-top: 0.75rem; }
+/* Compact card: icon on the side, just date and title, so the latest writing stays visible on phones */
+.post-cards a {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 1.1rem;
   align-items: center;
-  gap: 0.8rem;
-  margin-top: 1.75rem;
-  padding: 0.6rem 1.1rem;
-  background: rgba(212, 154, 163, 0.1);
+  padding: 1rem 1.25rem;
+  background: rgba(212, 154, 163, 0.08);
   border: 1px solid rgba(212, 154, 163, 0.35);
-  border-radius: 999px;
-  text-decoration: none;
-  font-size: 1.05rem;
-  line-height: 1.3;
+  border-radius: 3px;
   transition: background-color 0.2s, border-color 0.2s;
 }
-.banner[hidden] { display: none; }
-.banner:hover { background: rgba(212, 154, 163, 0.18); border-color: var(--pink); }
-.banner:focus-visible { outline: 1px solid var(--pink-deep); outline-offset: 3px; }
-.banner::before {
+.post-cards a:hover {
+  background: rgba(212, 154, 163, 0.14);
+  border-color: var(--pink);
+}
+.post-cards a::before {
   content: "";
-  flex: none;
-  width: 1.5rem;
-  height: 1.15rem;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 48' fill='none' stroke='%23d49aa3' stroke-width='2.5' stroke-linejoin='round'%3E%3Cpath d='M6 6h28a4 4 0 0 1 4 4v14a4 4 0 0 1-4 4H18l-8 7v-7H6a4 4 0 0 1-4-4V10a4 4 0 0 1 4-4z'/%3E%3Cpath d='M44 16h14a4 4 0 0 1 4 4v12a4 4 0 0 1-4 4h-2v6l-7-6H34a4 4 0 0 1-4-4v-2'/%3E%3C/svg%3E") no-repeat center / contain;
+  grid-row: 1 / span 2;
+  width: 2.2rem;
+  height: 1.7rem;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 48' fill='none' stroke='%23d49aa3' stroke-width='2' stroke-linejoin='round'%3E%3Cpath d='M6 6h28a4 4 0 0 1 4 4v14a4 4 0 0 1-4 4H18l-8 7v-7H6a4 4 0 0 1-4-4V10a4 4 0 0 1 4-4z'/%3E%3Cpath d='M44 16h14a4 4 0 0 1 4 4v12a4 4 0 0 1-4 4h-2v6l-7-6H34a4 4 0 0 1-4-4v-2'/%3E%3C/svg%3E") no-repeat center / contain;
 }
-.banner-label {
-  flex: none;
-  font-family: var(--sans);
-  font-size: 0.64rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--pink-deep);
-}
-.banner-title {
-  flex: 1;
-  min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.banner-arrow { flex: none; color: var(--pink-deep); transition: transform 0.2s; }
-.banner:hover .banner-arrow { transform: translateX(3px); }
-html[dir="rtl"] .banner:hover .banner-arrow { transform: translateX(-3px); }
-.banner + .hero { padding-top: clamp(2.5rem, 9vh, 5.5rem); }
+.post-cards .post-title { margin: 0.15rem 0 0; font-size: 1.3rem; }
+.post-cards + .more-link { margin-top: 1rem; }
 
 /* ---------- Single post ---------- */
 
@@ -340,7 +326,6 @@ html[lang="ar"] .prose p:first-child::first-letter {
   float: none; font-size: inherit; padding: 0; color: inherit; line-height: inherit;
 }
 
-html[lang="ar"] .banner-label,
 html[lang="ar"] .site-nav a,
 html[lang="ar"] .read-more,
 html[lang="ar"] .more-link,
@@ -378,8 +363,6 @@ main.is-switching { opacity: 0; }
   .site-header { padding-top: 1.5rem; padding-inline: 1rem; flex-wrap: wrap; row-gap: 0.75rem; }
   .site-nav { order: 3; width: 100%; margin: 0; }
   main { padding: 0 1rem; }
-  .hero,
-  .banner + .hero { padding: 2.25rem 0 2rem; }
-  .banner { margin-top: 1.25rem; font-size: 1rem; padding: 0.55rem 0.9rem; gap: 0.6rem; }
+  .hero { padding: 2.5rem 0 2rem; }
   .lang-switch button { padding: 0.3rem 0.45rem; }
 }

@@ -77,6 +77,7 @@
     document.querySelectorAll("[data-posts]").forEach(function (list) {
       var limit = list.dataset.posts === "all" ? Infinity : Number(list.dataset.posts);
       var section = list.dataset.section || "writing";
+      var compact = list.hasAttribute("data-compact");
       var posts = POSTS.filter(function (p) { return p.section === section; });
       list.innerHTML = posts.slice(0, limit).map(function (p) {
         var x = p[lang];
@@ -84,21 +85,11 @@
           '<span class="post-meta"><time datetime="' + p.date + '">' + x.date + '</time>' +
           '<span aria-hidden="true"> · </span>' + readingTime(lang, p.minutes) + '</span>' +
           '<span class="post-title">' + x.title + '</span>' +
-          '<span class="post-excerpt">' + x.excerpt + '</span>' +
-          '<span class="read-more">' + t.readMore + '</span>' +
+          (compact ? '' :
+            '<span class="post-excerpt">' + x.excerpt + '</span>' +
+            '<span class="read-more">' + t.readMore + '</span>') +
           '</a></li>';
       }).join("");
-    });
-
-    // One-line banner with the newest post of a section (homepage)
-    document.querySelectorAll("[data-banner]").forEach(function (el) {
-      var latest = POSTS.filter(function (p) { return p.section === el.dataset.banner; })[0];
-      if (!latest) { el.hidden = true; return; }
-      el.href = "posts/" + latest.slug + ".html";
-      el.innerHTML =
-        '<span class="banner-label">' + t.navLanguages + '</span>' +
-        '<span class="banner-title">' + latest[lang].title + '</span>' +
-        '<span class="banner-arrow" aria-hidden="true">' + (t.dir === "rtl" ? "←" : "→") + '</span>';
     });
 
     document.querySelectorAll("[data-i18n]").forEach(function (el) {
