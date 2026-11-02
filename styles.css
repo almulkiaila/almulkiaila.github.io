@@ -53,13 +53,22 @@ a { color: inherit; }
 }
 
 .monogram {
+  display: inline-flex;
+  align-items: center;
   font-family: var(--serif);
   font-size: 1.5rem;
   font-weight: 300;
+  line-height: 1;
   letter-spacing: 0.08em;
   text-decoration: none;
+  direction: ltr;
+  unicode-bidi: isolate;
 }
-.monogram span { color: var(--pink); margin: 0 0.1em; }
+.monogram span {
+  color: var(--pink);
+  font-size: 0.5em;
+  margin: 0 0.3em 0 0.15em;
+}
 
 .site-nav {
   display: flex;
@@ -74,7 +83,7 @@ a { color: inherit; }
 .site-nav a {
   color: var(--ink-muted);
   text-decoration: none;
-  padding-bottom: 0.2rem;
+  padding-block: 0.2rem;
   border-bottom: 1px solid transparent;
   transition: color 0.2s, border-color 0.2s;
 }
