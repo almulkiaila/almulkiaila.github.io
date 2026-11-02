@@ -77,6 +77,7 @@
     document.querySelectorAll("[data-posts]").forEach(function (list) {
       var limit = list.dataset.posts === "all" ? Infinity : Number(list.dataset.posts);
       var section = list.dataset.section || "writing";
+      var compact = list.hasAttribute("data-compact");
       var posts = POSTS.filter(function (p) { return p.section === section; });
       list.innerHTML = posts.slice(0, limit).map(function (p) {
         var x = p[lang];
@@ -84,8 +85,9 @@
           '<span class="post-meta"><time datetime="' + p.date + '">' + x.date + '</time>' +
           '<span aria-hidden="true"> · </span>' + readingTime(lang, p.minutes) + '</span>' +
           '<span class="post-title">' + x.title + '</span>' +
-          '<span class="post-excerpt">' + x.excerpt + '</span>' +
-          '<span class="read-more">' + t.readMore + '</span>' +
+          (compact ? '' :
+            '<span class="post-excerpt">' + x.excerpt + '</span>' +
+            '<span class="read-more">' + t.readMore + '</span>') +
           '</a></li>';
       }).join("");
     });

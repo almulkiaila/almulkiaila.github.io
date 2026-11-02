@@ -226,11 +226,16 @@ h2 .rule {
 /* ---------- Languages card on the homepage ---------- */
 
 .languages-feature { margin-top: 1rem; }
-.languages-feature + .writing { margin-top: 4rem; }
+.languages-feature + .writing { margin-top: 3rem; }
 
-.post-cards li + li { border-top: none; margin-top: 1rem; }
+.post-cards li + li { border-top: none; margin-top: 0.75rem; }
+/* Compact card: icon on the side, just date and title, so the latest writing stays visible on phones */
 .post-cards a {
-  padding: 1.75rem 1.75rem 1.5rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 1.1rem;
+  align-items: center;
+  padding: 1rem 1.25rem;
   background: rgba(212, 154, 163, 0.08);
   border: 1px solid rgba(212, 154, 163, 0.35);
   border-radius: 3px;
@@ -242,13 +247,13 @@ h2 .rule {
 }
 .post-cards a::before {
   content: "";
-  display: block;
-  width: 2.6rem;
-  height: 2rem;
-  margin-bottom: 1rem;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 48' fill='none' stroke='%23d49aa3' stroke-width='2' stroke-linejoin='round'%3E%3Cpath d='M6 6h28a4 4 0 0 1 4 4v14a4 4 0 0 1-4 4H18l-8 7v-7H6a4 4 0 0 1-4-4V10a4 4 0 0 1 4-4z'/%3E%3Cpath d='M44 16h14a4 4 0 0 1 4 4v12a4 4 0 0 1-4 4h-2v6l-7-6H34a4 4 0 0 1-4-4v-2'/%3E%3C/svg%3E") no-repeat left center / contain;
+  grid-row: 1 / span 2;
+  width: 2.2rem;
+  height: 1.7rem;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 48' fill='none' stroke='%23d49aa3' stroke-width='2' stroke-linejoin='round'%3E%3Cpath d='M6 6h28a4 4 0 0 1 4 4v14a4 4 0 0 1-4 4H18l-8 7v-7H6a4 4 0 0 1-4-4V10a4 4 0 0 1 4-4z'/%3E%3Cpath d='M44 16h14a4 4 0 0 1 4 4v12a4 4 0 0 1-4 4h-2v6l-7-6H34a4 4 0 0 1-4-4v-2'/%3E%3C/svg%3E") no-repeat center / contain;
 }
-html[dir="rtl"] .post-cards a::before { background-position: right center; }
+.post-cards .post-title { margin: 0.15rem 0 0; font-size: 1.3rem; }
+.post-cards + .more-link { margin-top: 1rem; }
 
 /* ---------- Single post ---------- */
 
@@ -358,5 +363,6 @@ main.is-switching { opacity: 0; }
   .site-header { padding-top: 1.5rem; padding-inline: 1rem; flex-wrap: wrap; row-gap: 0.75rem; }
   .site-nav { order: 3; width: 100%; margin: 0; }
   main { padding: 0 1rem; }
+  .hero { padding: 2.5rem 0 2rem; }
   .lang-switch button { padding: 0.3rem 0.45rem; }
 }
