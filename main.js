@@ -6,7 +6,10 @@
   var body = document.body;
   var root = document.documentElement;
   var main = document.querySelector("main");
-  var buttons = document.querySelectorAll(".lang-switch button");
+  var buttons = document.querySelectorAll(".lang-options [data-lang]");
+  var langToggle = document.querySelector(".lang-toggle");
+  var langOptions = document.querySelector(".lang-options");
+  var LANG_SHORT = { en: "EN", es: "ES", ar: "عربي" };
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function savedLang() {
@@ -100,6 +103,9 @@
     buttons.forEach(function (b) {
       b.setAttribute("aria-pressed", String(b.dataset.lang === lang));
     });
+    var current = langToggle.querySelector(".lang-current");
+    current.textContent = LANG_SHORT[lang];
+    current.classList.toggle("ar", lang === "ar");
 
     observeFades();
   }
@@ -115,8 +121,29 @@
     }, 220);
   }
 
+  /* ---------- Language dropdown ---------- */
+
+  function setMenu(open) {
+    langOptions.hidden = !open;
+    langToggle.setAttribute("aria-expanded", String(open));
+  }
+
+  langToggle.addEventListener("click", function (e) {
+    e.stopPropagation();
+    setMenu(langOptions.hidden);
+  });
+  document.addEventListener("click", function (e) {
+    if (!langOptions.hidden && !langOptions.contains(e.target)) setMenu(false);
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !langOptions.hidden) { setMenu(false); langToggle.focus(); }
+  });
+
   buttons.forEach(function (b) {
-    b.addEventListener("click", function () { switchTo(b.dataset.lang); });
+    b.addEventListener("click", function () {
+      setMenu(false);
+      switchTo(b.dataset.lang);
+    });
   });
 
   document.getElementById("year").textContent = new Date().getFullYear();
