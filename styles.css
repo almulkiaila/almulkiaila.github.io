@@ -346,6 +346,8 @@ h2 .rule {
 .post-icon .pupil { fill: var(--pink); stroke: none; }
 
 .prose em { color: var(--pink-deep); }
+.prose [lang="ar"] { font-family: var(--arabic); font-size: 1.05em; }
+html[lang="ar"] .prose [lang="en"] { font-family: var(--serif); }
 
 /* ---------- Footer ---------- */
 

@@ -4,6 +4,27 @@
 // "minutes" is the reading time: English word count / 200, rounded up.
 window.POSTS = [
   {
+    slug: "words-for-love-in-arabic",
+    section: "languages",
+    date: "2026-11-10",
+    minutes: 3,
+    en: {
+      date: "November 10, 2026",
+      title: "In Arabic, Love Is a Road",
+      excerpt: "Arabic doesn't have one word for love. It has a whole road, with a name for almost every step."
+    },
+    es: {
+      date: "10 de noviembre de 2026",
+      title: "En árabe, el amor es un camino",
+      excerpt: "El árabe no tiene una sola palabra para el amor. Tiene un camino entero, con un nombre para casi cada paso."
+    },
+    ar: {
+      date: "١٠ تشرين الثاني ٢٠٢٦",
+      title: "بالعربي، الحب طريق",
+      excerpt: "العربي ما عندو كلمة وحدة للحب. عندو طريق كامل، ولكل خطوة فيه تقريباً اسم."
+    }
+  },
+  {
     slug: "is-it-fomo",
     section: "writing",
     date: "2026-10-28",
